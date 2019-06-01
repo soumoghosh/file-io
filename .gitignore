@@ -1,0 +1,12 @@
+*log.*
+*.log
+.project
+.classpath
+*~
+**target
+**bin
+**.settings
+**metastore_db
+**nbproject
+**dist
+**build
