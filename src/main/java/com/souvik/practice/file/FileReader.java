@@ -1,5 +1,6 @@
 package com.souvik.practice.file;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,11 +16,16 @@ public class FileReader {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con = null;
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/books", "root", "root");
-
+		String[] char2 = null;
+		String sql = null;
+		int j;
 		StringBuilder sb = new StringBuilder();
-		String fileName = "E:\\code\\file-io\\src\\main\\resources\\csv\\teachers.csv";
-
-		try (InputStream fis = new FileInputStream(fileName);) {
+		// String fileName =
+		// "E:\\code\\file-io\\src\\main\\resources\\csv\\teachers.csv";
+		File f = new File("E:\\code\\file-io\\src\\main\\resources\\csv\\teacher1.csv");
+		String name = f.getName();
+		String fileName = name.substring(0, name.indexOf("."));
+		try (InputStream fis = new FileInputStream(f);) {
 
 			while (true) {
 
@@ -28,18 +34,20 @@ public class FileReader {
 					break;
 				}
 				char b = (char) a;
-				// System.out.println(b);
 				sb.append(b);
 			}
-			System.out.println(sb);
+			// System.out.println(sb);
 			String[] perString = sb.toString().split("\n");
+			int length = perString[0].split(",").length;
+			for (j = 0; j < length; j++) {
+				char2 = perString[0].split(",");
+				System.out.println(char2[j]);
+			}
+			sql = "insert into " + fileName + "(" + char2[0].trim() + "," + char2[1].trim() + "," + char2[2].trim()
+					+ ")values(?,?,?)";
+
 			for (int i = 1; i < perString.length; i++) {
-				System.out.println(perString[i]);
-
 				String[] char1 = perString[i].split(",");
-				System.out.println("********");
-
-				String sql = "insert into teacher1 (name, dept, course) values(?,?,?)";
 
 				/*
 				 * String sql =
