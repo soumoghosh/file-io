@@ -16,7 +16,6 @@ public class FileReader {
 		Class.forName("com.mysql.jdbc.Driver");
 		Connection con = null;
 		con = DriverManager.getConnection("jdbc:mysql://localhost:3306/books", "root", "root");
-		String[] char2 = null;
 		String sql = null;
 		int j;
 		StringBuilder sb = new StringBuilder();
@@ -39,12 +38,18 @@ public class FileReader {
 			// System.out.println(sb);
 			String[] perString = sb.toString().split("\n");
 			int length = perString[0].split(",").length;
+			String[] char2 = perString[0].split(",");
+			String columns = "";
+			String placeHolder = "";
 			for (j = 0; j < length; j++) {
-				char2 = perString[0].split(",");
-				System.out.println(char2[j]);
+				columns = columns + char2[j];
+				placeHolder = placeHolder + "?";
+				if (j < length - 1) {
+					columns = columns + ",";
+					placeHolder = placeHolder + ",";
+				}
 			}
-			sql = "insert into " + fileName + "(" + char2[0].trim() + "," + char2[1].trim() + "," + char2[2].trim()
-					+ ")values(?,?,?)";
+			sql = "insert into " + fileName + "(" + columns + ") values (" + placeHolder + ")";
 
 			for (int i = 1; i < perString.length; i++) {
 				String[] char1 = perString[i].split(",");
